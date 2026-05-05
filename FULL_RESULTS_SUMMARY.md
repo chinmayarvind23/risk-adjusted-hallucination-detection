@@ -1,8 +1,6 @@
 # Full Results Summary
 
-This file collects the main findings from the whole repo so far.
-
-It combines:
+This file collects the main findings. It combines:
 
 - the original project plan in [docs/initial_plan.md](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/docs/initial_plan.md)
 - the PHANTOM detector findings in [results/findings_phantom.md](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/findings_phantom.md)
@@ -33,7 +31,7 @@ The full pipeline does four things:
 3. Calibrate the detector score so it behaves more like a risk probability.
 4. Abstain on high-risk examples instead of answering them.
 
-The original plan used PHANTOM and a retrieval-grounded second regime. In the final repo, the second regime is **WikiQA**. The exact second dataset changed, but the main checklist stayed the same:
+The original plan used PHANTOM and a retrieval-grounded second regime. The second regime is **WikiQA**. The exact second dataset changed from HalluLens, but the main checklist stayed the same:
 
 - one source dataset
 - one target dataset
@@ -83,7 +81,7 @@ After that:
 - an abstention threshold is selected on validation
 - a frozen detector bundle is saved
 
-## 4. What is complete in the repo
+## 4. What is complete
 
 The following parts are complete:
 
@@ -95,8 +93,6 @@ The following parts are complete:
 - calibration comparisons
 - abstention curves
 - frozen bundles for both datasets
-
-So the full planned flow is now present in the repo.
 
 ## 5. PHANTOM standalone findings
 
@@ -195,7 +191,7 @@ Simple interpretation:
 - the system refuses about 18 percent of the riskiest cases
 - the quality of the remaining answers goes up a lot
 
-This is one of the strongest results in the repo.
+This is one of the strongest results.
 
 ## 6. WikiQA standalone findings
 
@@ -373,18 +369,18 @@ This means the poor transfer is not just one bad direction. Both directions are 
 
 ## 9. Main cross-dataset conclusion
 
-The transfer story is clear:
+The transfer summary is:
 
 - the standalone pipelines work
 - the cross-dataset transfer does not work well
 
-That is one of the most important final conclusions in the repo.
+That is one of the most important final conclusions.
 
 In simple words:
 
 > The detector can learn useful risk signals inside one evidence regime, but those signals do not carry over well to a different dataset without major loss.
 
-This is a strong result. It suggests that:
+This suggests that:
 
 - hallucination patterns depend on the evidence regime
 - calibration is not stable under shift
@@ -399,7 +395,7 @@ The basic transfer result is already clear from the transfer reports:
 
 But to make the project look more like serious research work, it helps to answer **why** transfer fails, not just show that it fails.
 
-The repo now includes a deeper diagnostic pass here:
+Deeper diagnostic pass here:
 
 - [transfer_diagnostics.py](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/code/analysis/transfer_diagnostics.py)
 - [transfer_diagnostics.json](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/transfer_diagnostics.json)
@@ -461,7 +457,7 @@ Unsupported minus supported on WikiQA:
 - `semantic_entropy = -0.1018`
 - `groundedness_score = -0.0714`
 
-This is one of the most important findings in the repo.
+This is one of the most important findings.
 
 On PHANTOM:
 
@@ -598,9 +594,24 @@ So the cleaner statement is:
 
 ### 10.6 Breakdown of failure cases
 
-The repo does not yet include hand-labeled qualitative case studies, but the diagnostics do support one strong failure-case pattern:
+The qualitative exports make the transfer failure pattern much clearer.
 
-> many unsupported target examples are still kept below the frozen source threshold.
+Main qualitative summary:
+
+- [qualitative_findings.md](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/qualitative/qualitative_findings.md)
+
+Key count files:
+
+- [qualitative_summary.txt](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/qualitative/phantom_in_domain/qualitative_summary.txt)
+- [qualitative_summary.txt](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/qualitative/wikiqa_in_domain/qualitative_summary.txt)
+- [qualitative_summary.txt](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/qualitative/phantom_to_wikiqa/qualitative_summary.txt)
+- [qualitative_summary.txt](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/qualitative/wikiqa_to_phantom/qualitative_summary.txt)
+
+The strongest pattern is:
+
+> many unsupported target examples still fall below the frozen transfer threshold and are kept.
+
+This is visible in the transfer diagnostics and in the qualitative exports.
 
 From [transfer_diagnostics.json](C:/Users/chinm/Documents/coursework/5541/project/Risk-Adjusted-Hallucination-Detection/results/transfer_diagnostics.json):
 
@@ -616,16 +627,59 @@ WikiQA to PHANTOM:
 - unsupported examples kept below the frozen threshold: `500`
 - kept share within unsupported target examples: `0.8306`
 
-This is a strong version of the "confident wrong" problem in transfer:
+The qualitative summaries show the same thing in a more concrete way.
 
-- the detector is not rejecting most target unsupported cases
-- many risky target cases still look safe to the source-domain model
+PHANTOM in-domain:
 
-That is consistent with the feature-direction flips above. If the source detector expects uncertainty to go up on unsupported cases, but the target dataset does not behave that way, many bad target cases will be scored too low.
+- total rows: `303`
+- unsupported kept: `53`
+- unsupported abstained: `43`
+- supported kept: `195`
+- supported abstained: `12`
+
+This is the cleanest qualitative result. The model rejects a substantial share of unsupported answers while keeping most supported ones.
+
+WikiQA in-domain:
+
+- total rows: `196`
+- unsupported kept: `46`
+- unsupported abstained: `1`
+- supported kept: `143`
+- supported abstained: `6`
+
+This is a much weaker abstention pattern. The detector keeps almost all unsupported answers at the frozen threshold.
+
+PHANTOM to WikiQA transfer:
+
+- total rows: `1300`
+- unsupported kept: `244`
+- unsupported abstained: `26`
+- supported kept: `956`
+- supported abstained: `74`
+
+This is the clearest transfer failure case. The transferred PHANTOM bundle keeps most unsupported WikiQA answers.
+
+WikiQA to PHANTOM transfer:
+
+- total rows: `2013`
+- unsupported kept: `500`
+- unsupported abstained: `102`
+- supported kept: `1213`
+- supported abstained: `198`
+
+This direction is more cautious than PHANTOM to WikiQA, but it still keeps many unsupported answers and also rejects more supported ones.
+
+So the failure-case story is:
+
+- PHANTOM in-domain gives the best balance
+- WikiQA in-domain is permissive
+- transfer in both directions keeps too many unsupported answers
+
+That is consistent with the feature-direction flips above. If the source detector expects uncertainty to rise on unsupported cases, but the target dataset does not behave that way, many bad target cases receive risk scores that are too low.
 
 ### 10.7 Is the main problem evidence quality, label definition, class balance, or feature instability
 
-The data in the repo supports **feature instability across evidence regimes** as the main problem.
+The data in this project supports **feature instability across evidence regimes** as the main problem.
 
 Why this is the strongest supported answer:
 
@@ -707,7 +761,7 @@ python code\analysis\transfer_diagnostics.py `
   --output-json results\transfer_diagnostics.json
 ```
 
-This output is the main citation file for the deeper transfer conclusions.
+This output is for deeper transfer conclusions.
 
 ## 11. What the figures show overall
 
@@ -807,7 +861,7 @@ Recommended poster flow:
 
 ## 15. Final bottom line
 
-The full repo now supports this final conclusion:
+The full project now supports this final conclusion:
 
 > A four-feature hallucination detector built from token uncertainty, self-consistency disagreement, semantic entropy, and groundedness can work reasonably well within a dataset, especially on PHANTOM. Calibration and abstention make the detector more useful as a reliability tool. However, when the detector is frozen and moved across datasets, performance drops sharply in both directions, which shows that evidence regime and dataset shift matter a lot.
 
