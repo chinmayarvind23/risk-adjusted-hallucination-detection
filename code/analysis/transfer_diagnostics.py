@@ -11,7 +11,7 @@ training:
 3. Does transfer fail mostly in ranking, calibration, or thresholding?
 4. How many unsupported examples remain below the frozen abstention threshold?
 
-It writes one JSON file that can be cited directly in the final results summary.
+It writes one JSON file for the final results summary.
 """
 
 import argparse
