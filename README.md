@@ -702,6 +702,55 @@ python code\analysis\transfer_diagnostics.py `
   --output-json results\transfer_diagnostics.json
 ```
 
+## Qualitative case exports
+
+To export per-example risk, calibrated risk, and keep or abstain decisions for manual inspection:
+
+### PHANTOM in-domain qualitative cases
+
+```powershell
+python code\analysis\export_qualitative_cases.py `
+  --bundle results\calibration\phantom_4000_frozen_bundle.json `
+  --csv data\full_run\splits\phantom_4000_test_standardized.csv `
+  --output-dir results\qualitative\phantom_in_domain
+```
+
+### WikiQA in-domain qualitative cases
+
+```powershell
+python code\analysis\export_qualitative_cases.py `
+  --bundle results\wikiqa\calibration\wikiqa_1300_frozen_bundle.json `
+  --csv data\wiki_qa\splits\wikiqa_1300_test_standardized.csv `
+  --output-dir results\qualitative\wikiqa_in_domain
+```
+
+### PHANTOM to WikiQA transfer qualitative cases
+
+```powershell
+python code\analysis\export_qualitative_cases.py `
+  --bundle results\calibration\phantom_4000_frozen_bundle.json `
+  --csv data\wiki_qa\train\wikiqa_1300_feature_table_standardized.csv `
+  --output-dir results\qualitative\phantom_to_wikiqa
+```
+
+### WikiQA to PHANTOM transfer qualitative cases
+
+```powershell
+python code\analysis\export_qualitative_cases.py `
+  --bundle results\wikiqa\calibration\wikiqa_1300_frozen_bundle.json `
+  --csv data\full_run\qwen3_8b_k5_phantom_4000_feature_table_deduped_standardized.csv `
+  --output-dir results\qualitative\wikiqa_to_phantom
+```
+
+Each run writes:
+
+- `all_cases_with_risk.csv`
+- `missed_hallucinations.csv`
+- `correctly_abstained_unsupported.csv`
+- `safe_supported_kept.csv`
+- `unnecessary_abstentions.csv`
+- `qualitative_summary.txt`
+
 ## Main result summary
 
 The takeaways from this repo are:

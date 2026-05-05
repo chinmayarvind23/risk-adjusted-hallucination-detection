@@ -3,8 +3,7 @@ from __future__ import annotations
 """
 Evaluate a frozen detector bundle on a new standardized dataset.
 
-This script is used for transfer experiments. It does not retrain anything.
-It simply applies:
+This script is used for transfer experiments. It simply applies:
 
 - frozen detector weights
 - frozen calibration method

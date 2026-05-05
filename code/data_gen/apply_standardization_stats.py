@@ -3,9 +3,8 @@ from __future__ import annotations
 """Apply frozen training-set normalization stats to new flat feature tables.
 
 This script exists for transfer and cross-regime evaluation. It intentionally
-does not fit new mean and standard deviation values. Instead it reuses the
-statistics from a saved training regime so new data enters the detector in the
-same feature space.
+keeps the saved mean and standard deviation values from a training regime so
+new data enters the detector in the same feature space.
 """
 
 import argparse
@@ -25,6 +24,7 @@ FEATURE_COLUMNS = [
 
 
 def _set_csv_field_limit() -> None:
+    """Allow large CSV fields such as long context passages."""
     limit = sys.maxsize
     while True:
         try:
@@ -42,6 +42,7 @@ def _read_csv(path: Path) -> List[Dict[str, str]]:
 
 
 def _write_csv(path: Path, rows: List[Dict[str, str]], fieldnames: List[str]) -> None:
+    """Write one transformed CSV back to disk."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)

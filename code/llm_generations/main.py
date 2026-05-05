@@ -62,7 +62,7 @@ DEFAULT_K = 5
 
 
 def _ensure_data_dirs() -> None:
-    """Create the dataset output directories when they do not exist yet."""
+    """Create the dataset output directories when they are missing."""
     PHANTOM_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     WIKIQA_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -161,7 +161,7 @@ def build_judge_messages(question: str, context: str, answer: str) -> List[Dict[
 
 
 def build_judge_repair_messages(raw_judge_output: str) -> List[Dict[str, str]]:
-    """Build a repair prompt when the judge did not return valid JSON."""
+    """Build a repair prompt when the judge output needs JSON normalization."""
     return [
         {
             "role": "system",
@@ -612,7 +612,7 @@ def _default_output_file_for_dataset(dataset_name: str, model_name: str, num_row
 def make_api_call_to_wikimedia(title: str) -> str:
     """Fetch a Wikipedia page extract.
 
-    This helper is currently optional and not part of the main pipeline.
+    This helper is currently optional and outside the main pipeline.
     """
     headers = {"User-Agent": "Risk-Adjusted-Hallucinations"}
     params = {

@@ -95,8 +95,8 @@ The current implementation uses sentence embeddings from a sentence-transformer.
 It treats the first answer as the served answer and asks how similar each of its
 sentences is to the best matching sentence in the other sampled answers.
 
-Higher disagreement means the sampled answers do not agree well, which is used
-as a proxy for higher hallucination risk.
+Higher disagreement means the sampled answers diverge more strongly, which is
+used as a proxy for higher hallucination risk.
 """
 
 import numpy as np

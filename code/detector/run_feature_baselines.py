@@ -261,7 +261,7 @@ def main() -> None:
         },
     }
 
-    # The random baseline is a floor reference, not a real detector.
+    # The random baseline serves as a floor reference for the learned systems.
     rng = np.random.default_rng(args.seed)
     random_train = rng.random(len(y_train_all))
     random_val = rng.random(len(y_val_all))

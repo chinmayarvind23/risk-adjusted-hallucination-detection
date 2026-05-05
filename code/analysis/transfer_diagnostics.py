@@ -3,8 +3,8 @@ from __future__ import annotations
 """
 Compute deeper diagnostics for the two standalone runs and both transfer runs.
 
-This script is meant to answer a few research-style questions that are not
-covered by the main training reports alone:
+This script is meant to answer a few research questions beyond the main
+training:
 
 1. Which feature-label relationships stay stable across datasets?
 2. Which feature directions flip across datasets?
@@ -32,11 +32,13 @@ FEATURE_COLUMNS = [
 
 
 def _load_json(path: Path) -> Dict:
+    """Load a saved JSON artifact used in the diagnostics pass."""
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
 
 
 def _sigmoid(z: np.ndarray) -> np.ndarray:
+    """Convert logits into raw unsupported probabilities."""
     clipped = np.clip(z, -50.0, 50.0)
     return 1.0 / (1.0 + np.exp(-clipped))
 
@@ -80,6 +82,7 @@ def _dataset_feature_summary(name: str, csv_path: Path) -> Dict:
 
 
 def _compare_feature_directions(source_summary: Dict, target_summary: Dict) -> Dict:
+    """Compare whether each feature keeps the same label direction across datasets."""
     comparison = {}
     for feature in FEATURE_COLUMNS:
         source_delta = source_summary["unsupported_minus_supported"][feature]
@@ -101,6 +104,7 @@ def _standalone_summary(
     tuned_report_path: Path,
     calibration_report_path: Path,
 ) -> Dict:
+    """Summarize the final in-domain detector, calibration, and abstention outputs."""
     tuned = _load_json(tuned_report_path)
     calibration = _load_json(calibration_report_path)
 
@@ -127,6 +131,7 @@ def _standalone_summary(
 
 
 def _apply_bundle(bundle: Dict, standardized_csv_path: Path) -> Tuple[pd.DataFrame, np.ndarray, np.ndarray]:
+    """Apply a frozen bundle to a standardized CSV and return raw and calibrated risk."""
     df = pd.read_csv(standardized_csv_path)
     weights = np.array(
         [bundle["detector"]["coefficients"][column] for column in bundle["feature_columns"]],
@@ -164,6 +169,7 @@ def _transfer_failure_breakdown(
     bundle_path: Path,
     standardized_target_csv_path: Path,
 ) -> Dict:
+    """Break transfer failure into detector ranking, calibration, and abstention views."""
     transfer = _load_json(transfer_report_path)
     bundle = _load_json(bundle_path)
     df, raw_probs, calibrated_probs = _apply_bundle(bundle, standardized_target_csv_path)
@@ -210,6 +216,7 @@ def _transfer_failure_breakdown(
 
 
 def main() -> None:
+    """Run the diagnostics pass and write one JSON summary for later reporting."""
     parser = argparse.ArgumentParser(description="Compute deeper diagnostics for standalone and transfer runs.")
     parser.add_argument("--phantom-raw", required=True)
     parser.add_argument("--wikiqa-raw", required=True)

@@ -200,7 +200,8 @@ def main() -> None:
     val_metrics = _classification_metrics(y_val, val_scores)
     test_metrics = _classification_metrics(y_test, test_scores)
 
-    # The manual ablation is not learned. It is a hand-set comparison point.
+    # The manual ablation uses fixed weights so the learned detector has a
+    # simple comparison point.
     manual_train_scores = _manual_weighted_scores(x_train)
     manual_val_scores = _manual_weighted_scores(x_val)
     manual_test_scores = _manual_weighted_scores(x_test)
@@ -218,7 +219,8 @@ def main() -> None:
         best_trial = None
         best_objective = float("-inf")
 
-        # Tune on validation only. Test is reported once the validation choice is fixed.
+        # Tune on validation only. Test is reported after the validation choice
+        # is fixed.
         for c_value in c_values:
             for class_weight_value in class_weight_values:
                 candidate_model = _build_logreg(
@@ -267,8 +269,8 @@ def main() -> None:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # The report contains both the baseline learned detector and the manual ablation
-    # so later scripts can compare them without retraining.
+    # The report stores both the learned detector and the manual ablation so
+    # later scripts can compare them from one artifact.
     report = {
         "feature_columns": FEATURE_COLUMNS,
         "train_rows": len(train_rows),

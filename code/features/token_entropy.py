@@ -4,8 +4,8 @@ from __future__ import annotations
 Compute token-level uncertainty for the served answer.
 
 This feature is the local uncertainty signal. It prefers using token log
-probabilities returned during generation. If those are unavailable and a local
-causal language model is available, it can recompute token statistics directly
+probabilities returned during generation. When those values are unavailable and
+a local causal language model is available, it can recompute token statistics directly
 from logits.
 """
 
@@ -68,8 +68,8 @@ def token_entropy(
                 "source": "generator_logprobs",
             }
 
-    # If no generation-time scores exist, only local model inference can rebuild
-    # the token uncertainty information.
+    # When generation-time scores are unavailable, local model inference can
+    # rebuild the token uncertainty information.
     if tokenizer is None or model is None or not answer:
         return {
             "mean_token_nll": None,

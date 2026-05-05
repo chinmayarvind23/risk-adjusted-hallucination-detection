@@ -2,8 +2,8 @@ from __future__ import annotations
 
 """Split a large JSONL file into smaller JSONL chunks.
 
-This is a helper for long generation runs. It does not change content, only how
-the file is partitioned on disk.
+This is a helper for long generation runs. It keeps file content unchanged and
+only repartitions rows on disk.
 """
 
 import argparse

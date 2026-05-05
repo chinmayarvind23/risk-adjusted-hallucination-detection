@@ -1,0 +1,41 @@
+example_id,dataset_name,question,context,served_answer,ground_truth_answer,ground_truth_label,judge_binary_label,judge_label,mean_token_nll,mean_token_logprob,sum_token_logprob,num_scored_tokens,mean_next_token_entropy,self_consistency_score,self_consistency_disagreement,semantic_entropy,normalized_semantic_entropy,num_semantic_clusters,groundedness_score,discrete_groundedness_score,entailed_fraction,contradicted_fraction,neutral_fraction,mean_entailment,mean_contradiction,mean_neutral,raw_logit,raw_risk,calibrated_risk,frozen_risk_threshold,classification_threshold_for_metrics,keep_decision
+Q2528_1197,wikiqa,what is the newest suite life on deck episode,"The Suite Life on Deck is a Disney Channel original series, which aired for three seasons on Disney Channel from September 26, 2008, to May 6, 2011.
+
+
+== Series overview ==
+
+
+== Episodes ==
+
+
+=== Season 1 (2008–09) ===
+
+
+=== Season 2 (2009–10) ===
+
+
+=== Season 3 (2010–11) ===
+
+
+=== Film (2011) ===
+
+
+== See also ==
+List of The Suite Life of Zack & Cody episodes
+List of Wizards of Waverly Place episodes - includes ""Cast-Away (To Another Show)"", part one of 'Wizards on Deck with Hannah Montana' crossover
+List of Hannah Montana episodes - includes ""Super(stitious) Girl"", part three of 'Wizards on Deck with Hannah Montana' crossover
+List of I'm in the Band episodes - includes crossover episode ""Weasels on Deck""
+
+
+== Notes ==
+
+
+== References ==
+
+
+=== General references ===
+
+
+== External links ==
+List of The Suite Life on Deck episodes at Zap2it
+List of The Suite Life on Deck episodes at Yahoo! TV",The answer is not supported by the context.,"This is a list of episodes for the Disney Channel original series The Suite Life on Deck , which aired for three seasons on Disney Channel from September 26, 2008 to May 6, 2011.",0,1,unsupported,-0.839547515219,-9.560677730983494e-09,-8.604609957885145e-08,9,,1.0000001192092896,-0.339716170605,-0.604793524354,0.0,1,-2.76363364016,0.0,0.0,0.0,1.0,0.06646728515625,0.01580810546875,0.91748046875,-0.3301241553872798,0.4182104145465943,0.42857142857142855,0.3108108108108108,0.5,abstain

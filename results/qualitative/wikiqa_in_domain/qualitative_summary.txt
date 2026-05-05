@@ -1,0 +1,7 @@
+total rows: 196
+kept rows: 189
+abstained rows: 7
+unsupported kept: 46
+unsupported abstained: 1
+supported kept: 143
+supported abstained: 6

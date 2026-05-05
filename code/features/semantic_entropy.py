@@ -233,7 +233,7 @@ def semantic_entropy(
     3. Normalize cluster masses across observed clusters.
     4. Compute entropy over the semantic-cluster distribution.
 
-    If sequence log-probabilities are not supplied, this falls back to the
+    When sequence log-probabilities are unavailable, this falls back to the
     paper's discrete semantic entropy estimator using cluster frequencies.
     """
     if not k_sampled_answers:

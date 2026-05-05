@@ -2,9 +2,9 @@ from __future__ import annotations
 
 """Plot a small side by side summary for PHANTOM and WikiQA runs.
 
-This file is only for quick comparison figures. It does not train models or
-change any results. It reads summary JSON files that were created after feature
-generation and turns them into a simple bar chart for inspection or slides.
+This file is for quick comparison figures. It reads summary JSON files that
+were created after feature generation and turns them into a simple bar chart
+for inspection or slides.
 """
 
 import argparse

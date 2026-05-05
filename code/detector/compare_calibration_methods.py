@@ -3,8 +3,8 @@ from __future__ import annotations
 """
 Compare post-hoc calibration methods for a frozen detector.
 
-The detector weights are learned first. This script does not retrain the
-detector. Instead, it:
+The detector weights are learned first. This script keeps those weights fixed,
+then it:
 
 1. Reconstructs raw detector scores on validation and test.
 2. Fits calibration methods on validation only.

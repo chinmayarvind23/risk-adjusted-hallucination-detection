@@ -49,7 +49,7 @@ DEFAULT_NUM_ROWS = 100
 
 
 def _ensure_data_dirs() -> None:
-    """Create the expected local data directories if they do not exist yet."""
+    """Create the expected local data directories when they are missing."""
     PHANTOM_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     WIKIQA_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     HF_CACHE_DIR.mkdir(parents=True, exist_ok=True)
